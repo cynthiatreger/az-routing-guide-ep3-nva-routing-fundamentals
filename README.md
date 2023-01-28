@@ -4,7 +4,7 @@ An Azure VM running a 3rd Party image with networking capabilities is referred t
 
 To illustrate the NVA use case, a Cisco CSR is deployed in the NVAsubnet (10.0.10.0/24) of the hub VNET. In our scenario this NVA will terminate connectivity to On-Prem branches (SDWAN or IPSec for example).
 
-The On-Prem connectivity represented in [Episode #1](https://github.com/cynthiatreger/az-routing-guide-ep1-vnet-peering-and-virtual-network-gateways) and [Episode #2](https://github.com/cynthiatreger/az-routing-guide-ep2-nic-routing) via the Virtual Network GW has been removed to avoid unnecessary complexity for now.
+The On-Prem connectivity represented in [Episode #1](https://github.com/cynthiatreger/az-routing-guide-ep1-vnet-peering-and-virtual-network-gateways) and [Episode #2](https://github.com/cynthiatreger/az-routing-guide-ep2-nic-routing) via the Virtual Network GW has been removed to avoid unnecessary complexity.
 
 <img width="550" alt="image" src="https://user-images.githubusercontent.com/110976272/215292829-2d9ba955-711a-4d96-8666-9feb5c312bb8.png">
 
@@ -56,18 +56,19 @@ Understanding this additional step and most importantly the need of alignment be
 We are now back to our initial setup, with On-Prem branches connected to the Concentrator NVA.
 Loopback addresses have been configured on the CSR for branch emulation.
 
-## 3.3.2.	NVA routing table & NVA <=> Branch reachability 
+## 3.2.1.	NVA routing table & NVA <=> Branch reachability 
 
 Connectivity between the Concentrator NVA and the On-Prem branches is confirmed by the Concentrator routing table and successful pings:
 
 <img width="1024" alt="image" src="https://user-images.githubusercontent.com/110976272/215296126-6d1982c5-871d-4c23-927e-fa55fb7a41f0.png">
 
-## 3.3.2.	NVA *Effective routes* and NVA routing table misalignment
+## 3.2.2.	NVA *Effective routes* and NVA routing table misalignment
 Although existing in the Concentrator NVA routing table, the branch prefixes are NOT reflected on the underlying VM’s NIC Effective routes nor known or reachable by any other VM in the VNET or peered VNETs, resulting in failed connectivity to the On-Prem branches.
 
 <img width="1124" alt="image" src="https://user-images.githubusercontent.com/110976272/215295807-d7c6c83f-b744-4606-ac66-fee7aebb717a.png">
 
-## 6.2.2.	Solution: Align the data-plane [NIC-level] to the control-plane [OS-level]
-To enable connectivity with this new loopback address in the testing environment, the NICs of the VMs must also know about its IP address, having the information at the NVA OS level is not enough. 
-This is achieved by 1) creating an Azure route table (or updating an existing one), 2) configuring an entry (a UDR) in this route table for the 7.7.7.7/32 destination with the next hop being a Virtual Appliance with IP address = 10.0.0.5, and 3) associating the Route Table with any subnet requiring connectivity to that loopback address
+## 3.2.3.	Solution: Align the data-plane (NVA *Effective routes*) to the control-plane (NVA routing table)
+To enable end-to-end connectivity, the NICs of the VMs must also know about the branch prefixes, having the information at the NVA OS level is not enough. 
+
+This is achieved by 1) creating an Azure route table (or updating an existing one), 2) configuring an entry (a UDR) in this route table for the branch prefixes (192.168.0.0/16) with the NVA as Next-Hop (10.0.10.4), and 3) associating the route table with any subnet requiring connectivity to these branches.
 
