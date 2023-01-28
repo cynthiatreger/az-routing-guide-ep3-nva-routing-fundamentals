@@ -13,7 +13,7 @@ Let's start without any branches connected to the Concentrator NVA and observe i
 
 <img width="997" alt="image" src="https://user-images.githubusercontent.com/110976272/215293529-596345e5-43cf-4637-9ee6-4dfe96faffd1.png">
 
-## 3.1.1. NVA *Effective routes* & NVA routing table
+## 3.1.1. NVA *Effective routes* & NVA routing table alignemnt
 When freshly deployed, the CSR comes with a default configuration, inherited from the VM on which it is hosted.
 
 Interface GigabitEthernet1 of the router has retrieved the IP address of the VM’s NIC:
@@ -51,5 +51,23 @@ In traditional networking, the packet would be processed through an SFP (inserte
 
 Understanding this additional step and most importantly the need of alignment between a VM’s Effective routes and the routing table sitting on top of the VM has been a key learning for me.
 
-We will now address the case where new routes are available at the NVA level.
+# 3.2. On-Prem connectivity via an NVA
+
+We are now back to our initial setup, with On-Prem branches connected to the Concentrator NVA.
+Loopback addresses have been configured on the CSR for branch emulation.
+
+## 3.3.2.	NVA routing table & NVA <=> Branch reachability 
+
+Connectivity between the Concentrator NVA and the On-Prem branches is confirmed by the Concentrator routing table and successful pings:
+
+<img width="1024" alt="image" src="https://user-images.githubusercontent.com/110976272/215296126-6d1982c5-871d-4c23-927e-fa55fb7a41f0.png">
+
+## 3.3.2.	NVA *Effective routes* and NVA routing table misalignment
+Although existing in the Concentrator NVA routing table, the branch prefixes are NOT reflected on the underlying VM’s NIC Effective routes nor known or reachable by any other VM in the VNET or peered VNETs, resulting in failed connectivity to the On-Prem branches.
+
+<img width="1124" alt="image" src="https://user-images.githubusercontent.com/110976272/215295807-d7c6c83f-b744-4606-ac66-fee7aebb717a.png">
+
+## 6.2.2.	Solution: Align the data-plane [NIC-level] to the control-plane [OS-level]
+To enable connectivity with this new loopback address in the testing environment, the NICs of the VMs must also know about its IP address, having the information at the NVA OS level is not enough. 
+This is achieved by 1) creating an Azure route table (or updating an existing one), 2) configuring an entry (a UDR) in this route table for the 7.7.7.7/32 destination with the next hop being a Virtual Appliance with IP address = 10.0.0.5, and 3) associating the Route Table with any subnet requiring connectivity to that loopback address
 
