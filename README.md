@@ -4,17 +4,17 @@
 ##
 [3.1. NVA default routing configuration & packet walk](https://github.com/cynthiatreger/az-routing-guide-ep3-nva-routing#31-nva-default-routing-configuration--packet-walk)
 
-[3.1.1. NVA *Effective routes* & NVA routing table alignement](https://github.com/cynthiatreger/az-routing-guide-ep3-nva-routing#311-nva-effective-routes--nva-routing-table-alignemnt)
+&emsp;[3.1.1. NVA *Effective routes* & NVA routing table alignement](https://github.com/cynthiatreger/az-routing-guide-ep3-nva-routing#311-nva-effective-routes--nva-routing-table-alignemnt)
 
-[3.1.2.	Packet walk](https://github.com/cynthiatreger/az-routing-guide-ep3-nva-routing#312packet-walk)
+&emsp;[3.1.2.	Packet walk](https://github.com/cynthiatreger/az-routing-guide-ep3-nva-routing#312packet-walk)
 
 [3.2. On-Prem connectivity via an NVA](https://github.com/cynthiatreger/az-routing-guide-ep3-nva-routing#32-on-prem-connectivity-via-an-nva)
 
-[3.2.1.	NVA routing table & reachability between the NVA and the branches](https://github.com/cynthiatreger/az-routing-guide-ep3-nva-routing#321nva-routing-table--nva--branch-reachability)
+&emsp;[3.2.1.	NVA routing table & reachability between the NVA and the branches](https://github.com/cynthiatreger/az-routing-guide-ep3-nva-routing#321nva-routing-table--nva--branch-reachability)
 
-[3.2.2.	*Effective routes* and NVA routing table misalignment](https://github.com/cynthiatreger/az-routing-guide-ep3-nva-routing#322nva-effective-routes-and-nva-routing-table-misalignment)
+&emsp;[3.2.2.	Azure VM *Effective routes* and NVA routing table misalignment](https://github.com/cynthiatreger/az-routing-guide-ep3-nva-routing#322nva-effective-routes-and-nva-routing-table-misalignment)
 
-[3.2.3.	Solution: Align the data-plane (*Effective routes*) to the control-plane (NVA routing table)](https://github.com/cynthiatreger/az-routing-guide-ep3-nva-routing#323solution-align-the-data-plane-nva-effective-routes-to-the-control-plane-nva-routing-table)
+&emsp;[3.2.3.	Solution: Align the data-plane (VM *Effective routes*) to the control-plane (NVA routing table)](https://github.com/cynthiatreger/az-routing-guide-ep3-nva-routing#323solution-align-the-data-plane-nva-effective-routes-to-the-control-plane-nva-routing-table)
 ##
 An Azure VM running a non-native 3rd Party image with networking capabilities is referred to as an [NVA](https://azure.microsoft.com/en-us/blog/best-practices-to-consider-before-deploying-a-network-virtual-appliance/) (Network Virtual Appliance). An NVA could be a firewall, a router, a proxy, an SDWAN hub, an IPSec concentrator etc.
 
@@ -81,7 +81,7 @@ Connectivity between the Concentrator NVA and the On-Prem branches is confirmed 
 
 <img width="1024" alt="image" src="https://user-images.githubusercontent.com/110976272/215296126-6d1982c5-871d-4c23-927e-fa55fb7a41f0.png">
 
-## 3.2.2.	*Effective routes* and NVA routing table misalignment
+## 3.2.2.	Azure VM *Effective routes* and NVA routing table misalignment
 Although existing in the Concentrator NVA routing table, the branch prefixes are NOT reflected on the underlying NVA’s NIC Effective routes nor known or reachable by any other VM in the VNET or peered VNETs, resulting in failed connectivity to the On-Prem branches. Step 3 of the above packet walk cannot be completed.
 
 <img width="1120" alt="image" src="https://user-images.githubusercontent.com/110976272/215336045-74818968-6012-4fe2-89ad-26932422ecba.png">
@@ -105,7 +105,7 @@ Here is a summary of the Concentrator's route table configuration:
 
 <img width="638" alt="image" src="https://user-images.githubusercontent.com/110976272/215297079-9faf1ef6-b1d3-477c-b612-0d49563af5e1.png">
 
-The result of associating these route tables to the Spoke subnets and the NVA subnet on the VMs *Effective routes* is represented on the updated diagram below.
+The result of associating these route tables to the Spoke subnets and the NVA subnet on the VMs *Effective routes* is represented on the updated diagram below:
 
 <img width="1157" alt="image" src="https://user-images.githubusercontent.com/110976272/215337939-98d0784c-1c85-4b19-b9fb-f2ee1e716745.png">
 
