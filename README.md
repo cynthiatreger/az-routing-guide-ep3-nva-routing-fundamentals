@@ -1,5 +1,7 @@
 # Episode #3: NVA Routing Fundamentals or what if a VM hosts an OS with routing capabilities?
 
+*Introduction note: This guide aims at providing a better understanding of the Azure routing mechanisms and how they translate from On-Prem networking. The focus will be on private routing in Hub & Spoke topologies. For clarity, network security and resiliency best practices as well as internet breakout considerations have been left out of this guide.*
+##
 [3.1. NVA default routing configuration & packet walk](https://github.com/cynthiatreger/az-routing-guide-ep3-nva-routing#31-nva-default-routing-configuration--packet-walk)
 
 [3.1.1. NVA *Effective routes* & NVA routing table alignement](https://github.com/cynthiatreger/az-routing-guide-ep3-nva-routing#311-nva-effective-routes--nva-routing-table-alignemnt)
@@ -13,7 +15,7 @@
 [3.2.2.	*Effective routes* and NVA routing table misalignment](https://github.com/cynthiatreger/az-routing-guide-ep3-nva-routing#322nva-effective-routes-and-nva-routing-table-misalignment)
 
 [3.2.3.	Solution: Align the data-plane (*Effective routes*) to the control-plane (NVA routing table)](https://github.com/cynthiatreger/az-routing-guide-ep3-nva-routing#323solution-align-the-data-plane-nva-effective-routes-to-the-control-plane-nva-routing-table)
-
+##
 An Azure VM running a non-native 3rd Party image with networking capabilities is referred to as an [NVA](https://azure.microsoft.com/en-us/blog/best-practices-to-consider-before-deploying-a-network-virtual-appliance/) (Network Virtual Appliance). An NVA could be a firewall, a router, a proxy, an SDWAN hub, an IPSec concentrator etc.
 
 To illustrate the NVA use case, a Cisco CSR is deployed in the NVAsubnet (10.0.10.0/24) of the hub VNET, and terminates connectivity to On-Prem branches (could be SDWAN or IPSec).
