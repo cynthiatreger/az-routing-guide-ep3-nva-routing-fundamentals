@@ -1,4 +1,18 @@
-# Episode #3: NVA Routing, what if a VM hosts an OS with routing capabilities?
+# Episode #3: NVA Routing or what if a VM hosts an OS with routing capabilities?
+
+[3.1. NVA default routing configuration & packet walk](https://github.com/cynthiatreger/az-routing-guide-ep3-nva-routing#31-nva-default-routing-configuration--packet-walk)
+
+[3.1.1. NVA *Effective routes* & NVA routing table alignement](https://github.com/cynthiatreger/az-routing-guide-ep3-nva-routing#311-nva-effective-routes--nva-routing-table-alignemnt)
+
+[3.1.2.	Packet walk](https://github.com/cynthiatreger/az-routing-guide-ep3-nva-routing#312packet-walk)
+
+[3.2. On-Prem connectivity via an NVA](https://github.com/cynthiatreger/az-routing-guide-ep3-nva-routing#32-on-prem-connectivity-via-an-nva)
+
+[3.2.1.	NVA routing table & NVA <=> Branch reachability](https://github.com/cynthiatreger/az-routing-guide-ep3-nva-routing#321nva-routing-table--nva--branch-reachability)
+
+[3.2.2.	NVA *Effective routes* and NVA routing table misalignment](https://github.com/cynthiatreger/az-routing-guide-ep3-nva-routing#322nva-effective-routes-and-nva-routing-table-misalignment)
+
+[3.2.3.	Solution: Align the data-plane (NVA *Effective routes*) to the control-plane (NVA routing table)](https://github.com/cynthiatreger/az-routing-guide-ep3-nva-routing#323solution-align-the-data-plane-nva-effective-routes-to-the-control-plane-nva-routing-table)
 
 An Azure VM running a 3rd Party image with networking capabilities is referred to as an [NVA](https://azure.microsoft.com/en-us/blog/best-practices-to-consider-before-deploying-a-network-virtual-appliance/) (Network Virtual Appliance). An NVA could be a firewall, a router, a proxy, an SDWAN hub, an IPSec concentrator etc.
 
@@ -13,7 +27,7 @@ Let's start without any branches connected to the Concentrator NVA and observe i
 
 <img width="997" alt="image" src="https://user-images.githubusercontent.com/110976272/215293529-596345e5-43cf-4637-9ee6-4dfe96faffd1.png">
 
-## 3.1.1. NVA *Effective routes* & NVA routing table alignemnt
+## 3.1.1. NVA *Effective routes* & NVA routing table alignement
 When freshly deployed, the CSR comes with a default configuration, inherited from the VM on which it is hosted.
 
 Interface GigabitEthernet1 of the router has retrieved the IP address of the VM’s NIC:
