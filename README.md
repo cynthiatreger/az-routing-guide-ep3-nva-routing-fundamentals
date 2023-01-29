@@ -16,14 +16,14 @@
 
 An Azure VM running a 3rd Party image with networking capabilities is referred to as an [NVA](https://azure.microsoft.com/en-us/blog/best-practices-to-consider-before-deploying-a-network-virtual-appliance/) (Network Virtual Appliance). An NVA could be a firewall, a router, a proxy, an SDWAN hub, an IPSec concentrator etc.
 
-To illustrate the NVA use case, a Cisco CSR is deployed in the NVAsubnet (10.0.10.0/24) of the hub VNET. In our scenario this NVA will terminate connectivity to On-Prem branches (SDWAN or IPSec for example).
+To illustrate the NVA use case, a Cisco CSR is deployed in the NVAsubnet (10.0.10.0/24) of the hub VNET, and terminates connectivity to On-Prem branches (SDWAN or IPSec for example).
 
-The On-Prem connectivity represented in [Episode #1](https://github.com/cynthiatreger/az-routing-guide-ep1-vnet-peering-and-virtual-network-gateways) and [Episode #2](https://github.com/cynthiatreger/az-routing-guide-ep2-nic-routing) via the Virtual Network GW has been removed to avoid unnecessary complexity.
+This scenario could represent an alternative to the On-Prem connectivity via the Virtual Network GW discussed in [Episode #1](https://github.com/cynthiatreger/az-routing-guide-ep1-vnet-peering-and-virtual-network-gateways) and [Episode #2](https://github.com/cynthiatreger/az-routing-guide-ep2-nic-routing).
 
 <img width="550" alt="image" src="https://user-images.githubusercontent.com/110976272/215292829-2d9ba955-711a-4d96-8666-9feb5c312bb8.png">
 
 # 3.1. NVA default routing configuration & packet walk
-Let's start without any branches connected to the Concentrator NVA and observe its default configuration.
+Let's start without any branches connected to the Concentrator NVA and observe its default configuration and behaviour.
 
 <img width="997" alt="image" src="https://user-images.githubusercontent.com/110976272/215293529-596345e5-43cf-4637-9ee6-4dfe96faffd1.png">
 
@@ -34,7 +34,7 @@ Interface GigabitEthernet1 of the router has retrieved the IP address of the VM�
 
 <img width="623" alt="image" src="https://user-images.githubusercontent.com/110976272/215293632-9da2475d-d15f-41d3-ae12-2c02e035cdce.png">
 
-Let’s look at the routing table (OS-level):
+Extract of the routing table (OS-level):
 
 <img width="441" alt="image" src="https://user-images.githubusercontent.com/110976272/215293719-44f074c9-4e2b-4620-a4fb-5bdaf24c58d8.png">
 
@@ -68,16 +68,16 @@ Understanding this additional step and most importantly the need of alignment be
 # 3.2. On-Prem connectivity via an NVA
 
 We are now back to our initial setup, with On-Prem branches connected to the Concentrator NVA.
-Loopback addresses have been configured on the CSR for branch emulation.
 
 ## 3.2.1.	NVA routing table & NVA <=> Branch reachability 
+In real-life scenarios the On-Prem prefixes are usually learnt dynamically by the Concentrator, via BGP run over IPSec tunnels or via the SDWAN overlay for example. Likewise, the Concentrator advertises the Azure ranges in return. Loopback addresses have been configured on the CSR for branch emulation.
 
 Connectivity between the Concentrator NVA and the On-Prem branches is confirmed by the Concentrator routing table and successful pings:
 
 <img width="1024" alt="image" src="https://user-images.githubusercontent.com/110976272/215296126-6d1982c5-871d-4c23-927e-fa55fb7a41f0.png">
 
 ## 3.2.2.	NVA *Effective routes* and NVA routing table misalignment
-Although existing in the Concentrator NVA routing table, the branch prefixes are NOT reflected on the underlying VM’s NIC Effective routes nor known or reachable by any other VM in the VNET or peered VNETs, resulting in failed connectivity to the On-Prem branches.
+Although existing in the Concentrator NVA routing table, the branch prefixes are NOT reflected on the underlying VM’s NIC Effective routes nor known or reachable by any other VM in the VNET or peered VNETs, resulting in failed connectivity to the On-Prem branches. Step 3 of the above packet walk cannot be completed.
 
 <img width="1124" alt="image" src="https://user-images.githubusercontent.com/110976272/215295807-d7c6c83f-b744-4606-ac66-fee7aebb717a.png">
 
