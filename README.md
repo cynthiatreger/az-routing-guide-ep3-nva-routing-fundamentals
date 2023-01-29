@@ -69,8 +69,11 @@ Understanding this additional step and most importantly the need of alignment be
 
 We are now back to our initial setup, with On-Prem branches connected to the Concentrator NVA.
 
+In real-life scenarios the On-Prem prefixes are usually learnt dynamically by the Concentrator, via BGP run over IPSec tunnels or via the SDWAN overlay for example. Likewise, the Concentrator advertises the Azure ranges to the branches in return. 
+
+Loopback addresses have been configured on the CSR for branch emulation.
+
 ## 3.2.1.	NVA routing table & NVA <=> Branch reachability 
-In real-life scenarios the On-Prem prefixes are usually learnt dynamically by the Concentrator, via BGP run over IPSec tunnels or via the SDWAN overlay for example. Likewise, the Concentrator advertises the Azure ranges in return. Loopback addresses have been configured on the CSR for branch emulation.
 
 Connectivity between the Concentrator NVA and the On-Prem branches is confirmed by the Concentrator routing table and successful pings:
 
@@ -84,7 +87,7 @@ Although existing in the Concentrator NVA routing table, the branch prefixes are
 ## 3.2.3.	Solution: Align the data-plane (NVA *Effective routes*) to the control-plane (NVA routing table)
 To enable end-to-end connectivity, the NICs of the VMs must also know about the branch prefixes, having the information at the NVA OS level is not enough. 
 
-This is achieved by 1) creating an Azure route table (or updating an existing one), 2) configuring an entry (a UDR) in this route table for the branch prefixes (192.168.0.0/16) with the NVA as Next-Hop (10.0.10.4), and 3) associating the route table with any subnet requiring connectivity to these branches.
+This is achieved by 1) creating an Azure route table (or updating an existing one), 2) configuring an entry (a UDR) in this route table for the branch prefixes (192.168.0.0/16) with the NVA as Next-Hop (10.0.10.4), and 3) associating the route table with any subnet requiring connectivity to these branches. Steps 2 and 3 are represented below:
 
 <img width="1024" alt="image" src="https://user-images.githubusercontent.com/110976272/215296529-0ba577fb-0762-442b-a59e-52ad31e6377b.png">
 
