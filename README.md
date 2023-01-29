@@ -91,8 +91,7 @@ This is achieved by 1) creating an Azure route table (or updating an existing on
 
 <img width="1024" alt="image" src="https://user-images.githubusercontent.com/110976272/215296529-0ba577fb-0762-442b-a59e-52ad31e6377b.png">
 
-:arrow_right: Do make sure to follow the blue box note of enabling IP forwarding on the Concentrator NVA’s NIC 😊
-When a UDR is configured with an NVA as Next-Hop, IP forwarding must be enabled on the NVA NIC receiving the traffic or packets will be dropped.
+:arrow_right: Do make sure to follow the blue box note of enabling IP forwarding on the Concentrator NVA’s NIC. When a UDR is configured with an NVA as Next-Hop, IP forwarding must be enabled on the NVA NIC receiving the traffic or packets will be dropped.
 
 All the subnets that should know about the On-Prem prefixes must be explicitly associated to the *SpokeRT* route table, containing the /16 static route to the Concentrator NVA. For this scenario we have associated all the subnets of Spoke1 and Spoke2 VNETs and the HubTestVM subnet to the *SpokeRT* route table.
 
@@ -106,12 +105,8 @@ Here is a summary of the Concentrator's route table configuration:
 
 The result of associating these route tables to the Spoke subnets and the NVA subnet on the VMs *Effective routes* is represented on the updated diagram below.
 
-<img width="1134" alt="image" src="https://user-images.githubusercontent.com/110976272/215297619-ff06bff3-ce84-4b18-bcd1-5802904e7aaf.png">
-
 <img width="1157" alt="image" src="https://user-images.githubusercontent.com/110976272/215337939-98d0784c-1c85-4b19-b9fb-f2ee1e716745.png">
 
-:arrow_right: The branch prefixes are not propagated by the Concentrator NVA in its VNET and pered VNETs like a Virtual Network Gateway would do here static routes pointing to the Concentrator are configured on every subnet.
+:arrow_right: The branch prefixes are not propagated by the Concentrator NVA in its VNET and pered VNETs like a Virtual Network Gateway would do. Connectivity is achieved via static routes pointing to the Concentrator and configured on every target subnet.
 
 :arrow_right: The *Gateway Transit* and *Gateway route propagation* settings only apply to native Azure gateways (Expressroute or VPN Virtual Network Gateways, or Azure Route Servers as we will see in Episode #5) and as a result don't affect the route propagation of our non-native NVA Concentrator.
-
-
