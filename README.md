@@ -71,7 +71,7 @@ Understanding this additional step and most importantly the need of alignment be
 
 We are now back to our initial setup, with On-Prem branches connected to the Concentrator NVA.
 
-In real-life scenarios the On-Prem prefixes would likely be learnt dynamically by the Concentrator, via BGP run over IPSec tunnels or via an SDWAN overlay for example, and the Concentrator would in return advertise the Azure IP ranges to the branches. 
+In real-life scenarios the On-Prem prefixes would likely be learnt dynamically by the Concentrator, via BGP run over IPSec tunnels or via an SDWAN overlay for example, and the Concentrator would in return advertise the Azure IP ranges to the branches.
 
 Whether IPSec or SDWAN, the solution run between the Concentrator and its branches is not relevant to understand the Azure routing principles. Loopback addresses have been configured on the CSR for branch emulation.
 
@@ -79,7 +79,9 @@ Whether IPSec or SDWAN, the solution run between the Concentrator and its branch
 
 Connectivity between the Concentrator NVA and the On-Prem branches is confirmed by the Concentrator routing table and successful pings:
 
-<img width="1024" alt="image" src="https://user-images.githubusercontent.com/110976272/215296126-6d1982c5-871d-4c23-927e-fa55fb7a41f0.png">
+<img width="1058" alt="image" src="https://user-images.githubusercontent.com/110976272/215356725-efc4e784-8ba3-460b-9262-77214b21b6c0.png">
+
+The static 10/8 supernet route covering the Azure environment and pointing to the subnet default gateway (10.0.10.1) is configured on the Concentrator NVA to be further advertised to the branches.
 
 ## 3.2.2.	Azure VM *Effective routes* and NVA routing table misalignment
 Although existing in the Concentrator NVA routing table, the branch prefixes are NOT reflected on the underlying NVA’s NIC Effective routes nor known or reachable by any other VM in the VNET or peered VNETs, resulting in failed connectivity to the On-Prem branches. Step 3 of the above packet walk cannot be completed.
