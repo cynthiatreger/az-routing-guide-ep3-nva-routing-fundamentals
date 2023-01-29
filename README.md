@@ -1,4 +1,4 @@
-# Episode #3: NVA Routing or what if a VM hosts an OS with routing capabilities?
+# Episode #3: NVA Routing Fundamentals or what if a VM hosts an OS with routing capabilities?
 
 [3.1. NVA default routing configuration & packet walk](https://github.com/cynthiatreger/az-routing-guide-ep3-nva-routing#31-nva-default-routing-configuration--packet-walk)
 
