@@ -1,4 +1,4 @@
-# Episode #3: NVA Routing: What if a VM hosts an OS with routing capabilities?
+# Episode #3: NVA Routing, what if a VM hosts an OS with routing capabilities?
 
 An Azure VM running a 3rd Party image with networking capabilities is referred to as an [NVA](https://azure.microsoft.com/en-us/blog/best-practices-to-consider-before-deploying-a-network-virtual-appliance/) (Network Virtual Appliance). An NVA could be a firewall, a router, a proxy, an SDWAN hub, an IPSec concentrator etc.
 
@@ -71,4 +71,24 @@ Although existing in the Concentrator NVA routing table, the branch prefixes are
 To enable end-to-end connectivity, the NICs of the VMs must also know about the branch prefixes, having the information at the NVA OS level is not enough. 
 
 This is achieved by 1) creating an Azure route table (or updating an existing one), 2) configuring an entry (a UDR) in this route table for the branch prefixes (192.168.0.0/16) with the NVA as Next-Hop (10.0.10.4), and 3) associating the route table with any subnet requiring connectivity to these branches.
+
+<img width="1024" alt="image" src="https://user-images.githubusercontent.com/110976272/215296529-0ba577fb-0762-442b-a59e-52ad31e6377b.png">
+
+:arrow_right: Do make sure to follow the blue box note of enabling IP forwarding on the Concentrator NVA’s NIC 😊
+When a UDR is configured with an NVA as Next-Hop, IP forwarding must be enabled on the NVA NIC receiving the traffic or packets will be dropped.
+
+All the subnets that should know about the On-Prem branches, statically configured here in the *SpokeRT* route table with a /16 supernet to the Concentrator NVA, must be explicitly associated to this Azure route table. For this scenario we have associated the Spoke1VM subnet and the HubTestVM subnet to the *SpokeRT* route table.
+
+As observed on the previous diagram, the Concentrator NVA itself didn’t have the On-Prem prefixes in its *Effective routes*. Its subnet must therefore also be associated to a Route Table with the 192.16.0.0/16 UDR.
+
+*Although the same UDR will be configured for the NVA (192.16.0.0/16 => 10.0.10.4) it is common practice to create a Route Table dedicated to the subnet of the NVA (Here “NvaRT”), to allow for further distinct updates usually required between the Spokes and the NVA.*
+
+Here is a summary of the Concentrator's route table configuration:
+
+<img width="638" alt="image" src="https://user-images.githubusercontent.com/110976272/215297079-9faf1ef6-b1d3-477c-b612-0d49563af5e1.png">
+
+The result of associating these route tables to the Spoke subnets and the NVA subnet on the VMs *Effective routes* is represented on the updated diagram below.
+
+<img width="1134" alt="image" src="https://user-images.githubusercontent.com/110976272/215297619-ff06bff3-ce84-4b18-bcd1-5802904e7aaf.png">
+
 
