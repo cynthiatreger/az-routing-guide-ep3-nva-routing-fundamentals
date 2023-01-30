@@ -69,7 +69,7 @@ Understanding this additional step and most importantly the need of alignment be
 
 # 3.2. On-Prem connectivity via an NVA
 
-We are now back to our initial setup, with On-Prem branches connected to the Concentrator NVA.
+We are now back to our [initial setup](https://user-images.githubusercontent.com/110976272/215292829-2d9ba955-711a-4d96-8666-9feb5c312bb8.png), with On-Prem branches connected to the Concentrator NVA.
 
 In real-life scenarios the On-Prem prefixes would likely be learnt dynamically by the Concentrator, via BGP run over IPSec tunnels or via an SDWAN overlay for example, and the Concentrator would in return advertise the Azure IP ranges to the branches.
 
