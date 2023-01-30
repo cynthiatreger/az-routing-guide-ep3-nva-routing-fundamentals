@@ -89,7 +89,7 @@ The static 10/8 supernet route covering the Azure environment and pointing to th
 ## 3.2.2.	Azure VM *Effective routes* and NVA routing table misalignment
 Although existing in the Concentrator NVA routing table, the branch prefixes are NOT reflected on the underlying NVA’s NIC Effective routes nor known or reachable by any other VM in the VNET or peered VNETs, resulting in failed connectivity to the On-Prem branches. Step 3 of the above packet walk cannot be completed.
 
-<img width="1120" alt="image" src="https://user-images.githubusercontent.com/110976272/215336045-74818968-6012-4fe2-89ad-26932422ecba.png">
+<img width="1120" alt="image" src="https://user-images.githubusercontent.com/110976272/215474167-148c0ae1-5872-4d95-b16e-2cb6a205b9f8.png">
 
 ## 3.2.3.	Solution: Align the data-plane (*Effective routes*) to the control-plane (NVA routing table)
 To enable end-to-end connectivity, the NICs of the VMs must also know about the branch prefixes, having the information at the NVA OS level is not enough. 
