@@ -98,7 +98,7 @@ This is achieved by 1) creating an Azure route table (or updating an existing on
 
 <img width="1024" alt="image" src="https://user-images.githubusercontent.com/110976272/215296529-0ba577fb-0762-442b-a59e-52ad31e6377b.png">
 
-:arrow_right: Do make sure to follow the blue box note of enabling IP forwarding on the Concentrator NVA’s NIC. When a UDR is configured with an NVA as Next-Hop, IP forwarding must be enabled on the NVA NIC receiving the traffic or packets will be dropped.
+:warning: Do make sure to follow the blue box note of enabling IP forwarding on the Concentrator NVA’s NIC. When a UDR is configured with an NVA as Next-Hop, IP forwarding must be enabled on the NVA NIC receiving the traffic or packets will be dropped.
 
 All the subnets that should know about the On-Prem prefixes must be explicitly associated to the *SpokeRT* route table, containing the /16 static route to the Concentrator NVA. For this scenario we have associated all the subnets of Spoke1 and Spoke2 VNETs and the HubTestVM subnet to the *SpokeRT* route table.
 
