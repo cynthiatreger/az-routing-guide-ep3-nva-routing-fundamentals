@@ -99,7 +99,7 @@ This is achieved by 1) creating an Azure route table (or updating an existing on
 
 All the subnets that should know about the On-Prem prefixes must be explicitly associated to the *SpokeRT* route table, containing the /16 static route to the Concentrator NVA. For this scenario we have associated all the subnets of Spoke1 and Spoke2 VNETs and the HubTestVM subnet to the *SpokeRT* route table.
 
-As observed on the previous diagram, the Concentrator NVA itself didn’t have the On-Prem prefixes in its *Effective routes*. Its subnet must therefore also be associated to a route table with the 192.16.0.0/16 UDR.
+As observed on the previous diagram, the Concentrator NVA itself don’t have the On-Prem prefixes in its *Effective routes*. Its subnet must therefore also be associated to a route table with the 192.16.0.0/16 UDR.
 
 *Although the same UDR will be configured for the NVA (192.16.0.0/16 => 10.0.10.4) it is common practice to create a route table dedicated to the subnet of the NVA (Here “*ConcentratorRT*”), to allow for further distinct updates usually required between the Spokes and the NVA.*
 
