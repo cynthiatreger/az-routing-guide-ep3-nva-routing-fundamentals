@@ -4,7 +4,7 @@
 ##
 [3.1. NVA default routing configuration & packet walk](https://github.com/cynthiatreger/az-routing-guide-ep3-nva-routing-fundamentals#31-nva-default-routing-configuration--packet-walk)
 
-&emsp;[3.1.1. NVA *Effective routes* & NVA routing table alignement](https://github.com/cynthiatreger/az-routing-guide-ep3-nva-routing-fundamentals#311-nva-effective-routes--nva-routing-table-alignement)
+&emsp;[3.1.1. NVA *Effective routes* & NVA routing table alignment](https://github.com/cynthiatreger/az-routing-guide-ep3-nva-routing-fundamentals#311-nva-effective-routes--nva-routing-table-alignment)
 
 &emsp;[3.1.2.	Packet walk](https://github.com/cynthiatreger/az-routing-guide-ep3-nva-routing-fundamentals#312packet-walk)
 
@@ -29,7 +29,7 @@ Let's start without any branches connected to the Concentrator NVA and observe i
 
 <img width="997" alt="image" src="https://user-images.githubusercontent.com/110976272/215293529-596345e5-43cf-4637-9ee6-4dfe96faffd1.png">
 
-## 3.1.1. NVA *Effective routes* & NVA routing table alignement
+## 3.1.1. NVA *Effective routes* & NVA routing table alignment
 When freshly deployed, the CSR comes with a default configuration, inherited from the VM on which it is hosted.
 
 Interface GigabitEthernet1 of the router has retrieved the IP address of the VM’s NIC:
