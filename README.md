@@ -105,7 +105,7 @@ As observed on the previous diagram, the Concentrator NVA itself don’t have th
 
 *Although the same UDR will be configured for the NVA (192.16.0.0/16 => 10.0.10.4) it is common practice to create a route table dedicated to the subnet of the NVA (Here “*ConcentratorRT*”), to allow for further distinct updates usually required between the Spokes and the NVA.*
 
-Here is a summary of the Concentrator's route table configuration:
+Here is a summary of the Concentrator NVA's route table configuration:
 
 <img width="638" alt="image" src="https://user-images.githubusercontent.com/110976272/215297079-9faf1ef6-b1d3-477c-b612-0d49563af5e1.png">
 
