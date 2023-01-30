@@ -114,7 +114,7 @@ Here is a summary of the Concentrator NVA's route table configuration:
 
 The result of associating these route tables to the Spoke subnets and the NVA subnet on the VMs *Effective routes* is represented on the updated diagram below:
 
-<img width="1161" alt="image" src="https://user-images.githubusercontent.com/110976272/215525919-e0aaa96b-e60e-4667-b2cb-c8abab4b5f54.png">
+<img width="1169" alt="image" src="https://user-images.githubusercontent.com/110976272/215546700-5099bbad-65fe-487b-b17c-e450770d74db.png">
 
 :arrow_right: The branch prefixes are not propagated by the Concentrator NVA in its VNET and pered VNETs like a Virtual Network Gateway would do. Connectivity is achieved via static routes pointing to the Concentrator and configured on every target subnet.
 
