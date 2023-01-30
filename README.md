@@ -100,7 +100,9 @@ This is achieved by 1) creating an Azure route table (or updating an existing on
 
 :warning: Do make sure to follow the blue box note of enabling IP forwarding on the Concentrator NVA’s NIC. When a UDR is configured with an NVA as Next-Hop, IP forwarding must be enabled on the NVA NIC receiving the traffic or packets will be dropped.
 
-All the subnets that should know about the On-Prem prefixes must be explicitly associated to the *SpokeRT* route table, containing the /16 static route to the Concentrator NVA. For this scenario we have associated all the subnets of Spoke1 and Spoke2 VNETs and the HubTestVM subnet to the *SpokeRT* route table.
+All the subnets that should know about the On-Prem prefixes must be explicitly associated to the *SpokeRT* route table, containing the /16 static route to the Concentrator NVA. For this scenario we have associated all the subnets of Spoke1 and Spoke2 VNETs and the Hub Test subnet to the *SpokeRT* route table:
+
+<img width="678" alt="image" src="https://user-images.githubusercontent.com/110976272/215543830-32e9bb56-6cae-4e6a-928c-5765bec86a4b.png">
 
 As observed on the previous diagram, the Concentrator NVA itself don’t have the On-Prem prefixes in its *Effective routes*. Its subnet must therefore also be associated to a route table with the 192.16.0.0/16 UDR.
 
@@ -108,7 +110,7 @@ As observed on the previous diagram, the Concentrator NVA itself don’t have th
 
 Here is a summary of the Concentrator NVA's route table configuration:
 
-<img width="638" alt="image" src="https://user-images.githubusercontent.com/110976272/215297079-9faf1ef6-b1d3-477c-b612-0d49563af5e1.png">
+<img width="688" alt="image" src="https://user-images.githubusercontent.com/110976272/215297079-9faf1ef6-b1d3-477c-b612-0d49563af5e1.png">
 
 The result of associating these route tables to the Spoke subnets and the NVA subnet on the VMs *Effective routes* is represented on the updated diagram below:
 
