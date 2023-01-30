@@ -82,14 +82,14 @@ Whether IPSec or SDWAN, the solution run between the Concentrator and its branch
 
 Connectivity between the Concentrator NVA and the On-Prem branches is confirmed by the Concentrator routing table and successful pings:
 
-<img width="1058" alt="image" src="https://user-images.githubusercontent.com/110976272/215356725-efc4e784-8ba3-460b-9262-77214b21b6c0.png">
+<img width="1058" alt="image" src="https://user-images.githubusercontent.com/110976272/215522509-ffb8ad9c-772d-4b56-b1ea-7e431ea79aa0.png">
 
 The static 10/8 supernet route covering the Azure environment and pointing to the subnet default gateway (10.0.10.1) is configured on the Concentrator NVA to be further advertised to the branches.
 
 ## 3.2.2.	Azure VM *Effective routes* and NVA routing table misalignment
 Although existing in the Concentrator NVA routing table, the branch prefixes are NOT reflected on the underlying NVA’s NIC Effective routes nor known or reachable by any other VM in the VNET or peered VNETs, resulting in failed connectivity to the On-Prem branches. Step 3 of the above packet walk cannot be completed.
 
-<img width="1120" alt="image" src="https://user-images.githubusercontent.com/110976272/215474167-148c0ae1-5872-4d95-b16e-2cb6a205b9f8.png">
+<img width="1151" alt="image" src="https://user-images.githubusercontent.com/110976272/215525127-66412d8b-0e17-4528-9f8f-39b11e82065c.png">
 
 ## 3.2.3.	Solution: Align the data-plane (*Effective routes*) to the control-plane (NVA routing table)
 To enable end-to-end connectivity, the NICs of the VMs must also know about the branch prefixes, having the information at the NVA OS level is not enough. 
@@ -112,8 +112,10 @@ Here is a summary of the Concentrator NVA's route table configuration:
 
 The result of associating these route tables to the Spoke subnets and the NVA subnet on the VMs *Effective routes* is represented on the updated diagram below:
 
-<img width="1157" alt="image" src="https://user-images.githubusercontent.com/110976272/215337939-98d0784c-1c85-4b19-b9fb-f2ee1e716745.png">
+<img width="1161" alt="image" src="https://user-images.githubusercontent.com/110976272/215525919-e0aaa96b-e60e-4667-b2cb-c8abab4b5f54.png">
 
 :arrow_right: The branch prefixes are not propagated by the Concentrator NVA in its VNET and pered VNETs like a Virtual Network Gateway would do. Connectivity is achieved via static routes pointing to the Concentrator and configured on every target subnet.
 
-:arrow_right: The *Gateway Transit* and *Gateway route propagation* settings only apply to native Azure gateways (Expressroute or VPN Virtual Network Gateways, or Azure Route Servers as we will see in Episode #5) and as a result don't affect the route propagation of our non-native NVA Concentrator.
+:arrow_right: The *Gateway Transit* and *Gateway route propagation* settings only apply to native Azure gateways (Expressroute or VPN Virtual Network Gateways, or Azure Route Servers as we will see in Episode #5) and as a result are not relevant in the context of the current use case (UDRs + non-native Concentrator NVA).
+##
+### [>> EPISODE #4](https://github.com/cynthiatreger/az-routing-guide-ep4-nva-routing-2-0) (out 02/02)
