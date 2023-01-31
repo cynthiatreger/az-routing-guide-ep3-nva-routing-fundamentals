@@ -121,4 +121,4 @@ The result of associating these route tables to the Spoke subnets and the NVA su
 
 :arrow_right: The *Gateway Transit* and *Gateway route propagation* settings only apply to native Azure gateways (Expressroute or VPN Virtual Network Gateways, or Azure Route Servers as we will see in Episode #5) and as a result are not relevant in the context of the current use case (UDRs + non-native Concentrator NVA).
 ##
-### [>> EPISODE #4](https://github.com/cynthiatreger/az-routing-guide-ep4-nva-routing-2-0) (out 02/02)
+### [>> EPISODE #4](https://github.com/cynthiatreger/az-routing-guide-ep4-nva-routing-2-0) to come out soon
