@@ -20,7 +20,7 @@
 ##
 An Azure VM running a non-native 3rd Party image with networking capabilities is referred to as an [NVA](https://azure.microsoft.com/en-us/blog/best-practices-to-consider-before-deploying-a-network-virtual-appliance/) (Network Virtual Appliance). An NVA could be a firewall, a router, a proxy, an SDWAN hub, an IPSec concentrator etc.
 
-To illustrate the NVA use case, a Cisco CSR is deployed in the NVAsubnet (10.0.10.0/24) of the hub VNET, and terminates connectivity to On-Prem branches (could be SDWAN or IPSec).
+To illustrate the NVA use case, a Cisco CSR is deployed in a new subnet ("NVAsubnet": 10.0.10.0/24) of the hub VNET, and terminates connectivity to On-Prem branches (could be SDWAN or IPSec).
 
 This scenario represents an alternative to the On-Prem connectivity via the Azure native Virtual Network GW discussed in [Episode #1](https://github.com/cynthiatreger/az-routing-guide-ep1-vnet-peering-and-virtual-network-gateways) and [Episode #2](https://github.com/cynthiatreger/az-routing-guide-ep2-nic-routing).
 
