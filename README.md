@@ -105,7 +105,7 @@ All the subnets that should know about the On-Prem prefixes must be explicitly a
 
 <img width="678" alt="image" src="https://user-images.githubusercontent.com/110976272/215543830-32e9bb56-6cae-4e6a-928c-5765bec86a4b.png">
 
-As observed on the previous diagram, the Concentrator NVA itself don’t have the On-Prem prefixes in its *Effective routes*. Its subnet must therefore also be associated to a route table with the 192.16.0.0/16 UDR.
+As observed on the previous diagram, the Concentrator NVA itself don’t have the On-Prem prefixes in its *Effective routes*. Its subnet must therefore also be associated to a *Route table* with the 192.16.0.0/16 UDR.
 
 :arrow_right: Although the same UDR will be configured for the NVA (192.16.0.0/16 => 10.0.10.4) and for the Spokes it is common practice to create a Route table dedicated to the subnet of the NVA, to allow for further distinct updates usually required between the Spokes and the NVA.
 
