@@ -46,7 +46,7 @@ As expected from a router, it contains the directly connected route of its Gigab
 
 And since by default all resources in a VNET can communicate outbound to the internet, the 0.0.0.0/0 route of the NIC *Effective routes* is reflected in the Concentrator routing table, pointing towards the default GW of the subnet (10.0.10.1 *).
 
-(\* *[In Azure, 5 IPs are reserved per subnet](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-faq#are-there-any-restrictions-on-using-ip-addresses-within-these-subnets:~:text=For%20example%2C%20the,Network%20broadcast%20address.): 1 network + 1 broadcast + 3 Azure reserved IPs (1 subnet default gateway + 2 DNS).*)
+\* *[In Azure, 5 IPs are reserved per subnet](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-faq#are-there-any-restrictions-on-using-ip-addresses-within-these-subnets:~:text=For%20example%2C%20the,Network%20broadcast%20address.): 1 network + 1 broadcast + 3 Azure reserved IPs (1 subnet default gateway + 2 DNS).*
 
 [168.63.129.16](https://learn.microsoft.com/en-us/azure/virtual-network/what-is-ip-address-168-63-129-16) and [169.254.169.254](https://learn.microsoft.com/en-us/azure/virtual-machines/windows/instance-metadata-service?tabs=windows) are also part of the default configuration of any device in Azure and are used for the communication to Azure management platform resources. These IPs are not relevant in the context of this article.
 
