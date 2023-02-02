@@ -117,7 +117,7 @@ The impact on the VMs *Effective routes* of associating these 2 *Route tables* t
 
 <img width="1173" alt="image" src="https://user-images.githubusercontent.com/110976272/215555521-bdce8934-c420-4fab-8159-3e602aec031a.png">
 
-:arrow_right: The branch prefixes are not propagated by the Concentrator NVA in its VNET and peered VNETs like a Virtual Network Gateway would do. Connectivity is achieved via static routes pointing to the Concentrator and configured on every target subnet.
+:arrow_right: The branch prefixes are not propagated by the Concentrator NVA in its VNET and peered VNETs like a Virtual Network Gateway would do. Connectivity is achieved via UDRs pointing to the Concentrator and configured on every target subnet.
 
 :arrow_right: The *Gateway Transit* and *Gateway route propagation* settings only apply to native Azure gateways (Expressroute or VPN Virtual Network Gateways, or Azure Route Servers as we will see in Episode #5) and as a result are not relevant in the context of the current use case (UDRs + non-native Concentrator NVA).
 ##
