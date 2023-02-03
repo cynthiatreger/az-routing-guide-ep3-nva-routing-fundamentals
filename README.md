@@ -121,4 +121,4 @@ The impact on the VMs *Effective routes* of associating these 2 *Route tables* t
 
 :arrow_right: The *Gateway Transit* and *Gateway route propagation* settings only apply to native Azure gateways (Expressroute or VPN Virtual Network Gateways, or Azure Route Servers as we will see in Episode #5) and as a result are not relevant in the context of the current use case (UDRs + non-native Concentrator NVA).
 ##
-### [>> to EPISODE #4](https://github.com/cynthiatreger/az-routing-guide-ep4-chained-nvas) coming out soon
+### [>> to EPISODE #4](https://github.com/cynthiatreger/az-routing-guide-ep4-chained-nvas)
