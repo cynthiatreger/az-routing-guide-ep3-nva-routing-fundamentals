@@ -65,7 +65,7 @@ Because in the CSR routing table there isn’t any match for the Spoke1VM subnet
 
 In traditional networking, packets would be processed through an SFP (inserted in a physical port labelled “GE1”) and according to the L3 routing decision made by the router. 
 
-3. :arrow_right: **In Azure, after the routing at NVA OS level has determined to which (logical) interface to forward traffic to (here GigabitEthernet1),packets reach the underlying associated physical NIC, where they are routed based on the NIC *Effective routes* and the packet destination IP, and are finally sent to the wire accordingly** (here the destination matches the 10.1.0.0/16 entry know via VNET peering).
+3. :arrow_right: **In Azure, after the routing at NVA OS level has determined to which (logical) interface to forward traffic to (here GigabitEthernet1), packets reach the underlying associated physical NIC, where they are routed based on the NIC *Effective routes* and the packet destination IP, and are finally sent to the wire accordingly** (here the destination matches the 10.1.0.0/16 entry know via VNET peering).
 
 Understanding this additional step and most importantly the need of alignment between a VM’s Effective routes and the routing table sitting on top of the VM has been a key learning for me.
 
