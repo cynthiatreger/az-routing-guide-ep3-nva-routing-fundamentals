@@ -8,15 +8,15 @@
 
 &emsp;[3.1.1. NVA *Effective routes* & NVA routing table alignment](https://github.com/cynthiatreger/az-routing-guide-ep3-nva-routing-fundamentals#311-nva-effective-routes--nva-routing-table-alignment)
 
-&emsp;[3.1.2.	Packet walk](https://github.com/cynthiatreger/az-routing-guide-ep3-nva-routing-fundamentals#312packet-walk)
+&emsp;[3.1.2. Packet walk](https://github.com/cynthiatreger/az-routing-guide-ep3-nva-routing-fundamentals#312packet-walk)
 
 [3.2. On-Prem connectivity via an NVA](https://github.com/cynthiatreger/az-routing-guide-ep3-nva-routing-fundamentals#32-on-prem-connectivity-via-an-nva)
 
-&emsp;[3.2.1.	NVA routing table & reachability between the NVA and the branches](https://github.com/cynthiatreger/az-routing-guide-ep3-nva-routing-fundamentals#321nva-routing-table--reachability-between-the-nva-and-the-branches)
+&emsp;[3.2.1. NVA routing table & reachability between the NVA and the branches](https://github.com/cynthiatreger/az-routing-guide-ep3-nva-routing-fundamentals#321nva-routing-table--reachability-between-the-nva-and-the-branches)
 
-&emsp;[3.2.2.	Azure VM *Effective routes* and NVA routing table misalignment](https://github.com/cynthiatreger/az-routing-guide-ep3-nva-routing-fundamentals#322azure-vm-effective-routes-and-nva-routing-table-misalignment)
+&emsp;[3.2.2. Azure VM *Effective routes* and NVA routing table misalignment](https://github.com/cynthiatreger/az-routing-guide-ep3-nva-routing-fundamentals#322azure-vm-effective-routes-and-nva-routing-table-misalignment)
 
-&emsp;[3.2.3.	Solution: Align the data-plane (VM *Effective routes*) to the control-plane (NVA routing table)](https://github.com/cynthiatreger/az-routing-guide-ep3-nva-routing-fundamentals#323solution-align-the-data-plane-effective-routes-to-the-control-plane-nva-routing-table)
+&emsp;[3.2.3. Solution: Align the data-plane (VM *Effective routes*) to the control-plane (NVA routing table)](https://github.com/cynthiatreger/az-routing-guide-ep3-nva-routing-fundamentals#323solution-align-the-data-plane-effective-routes-to-the-control-plane-nva-routing-table)
 ##
 An Azure VM running a non-native 3rd Party image with networking capabilities is referred to as an [NVA](https://azure.microsoft.com/en-us/blog/best-practices-to-consider-before-deploying-a-network-virtual-appliance/) (Network Virtual Appliance). An NVA could be a firewall, a router, a proxy, an SDWAN hub, an IPSec concentrator etc.
 
@@ -79,7 +79,7 @@ In real-life scenarios the On-Prem prefixes would likely be learnt dynamically b
 
 Whether IPSec or SDWAN, the solution run between the Concentrator and its branches is not relevant to understand the Azure routing principles. Loopback addresses have been configured on the CSR for branch emulation.
 
-## 3.2.1.	NVA routing table & reachability between the NVA and the branches
+## 3.2.1. NVA routing table & reachability between the NVA and the branches
 
 Connectivity between the Concentrator NVA and the On-Prem branches is confirmed by the Concentrator routing table and successful pings:
 
@@ -87,33 +87,29 @@ Connectivity between the Concentrator NVA and the On-Prem branches is confirmed 
 
 The static 10/8 supernet route covering the Azure environment and pointing to the subnet default gateway (10.0.10.1) is configured on the Concentrator NVA to be further advertised to the branches.
 
-## 3.2.2.	Azure VM *Effective routes* and NVA routing table misalignment
+## 3.2.2. Azure VM *Effective routes* and NVA routing table misalignment
 Although existing in the Concentrator NVA routing table, the branch prefixes are NOT reflected on the underlying NVA’s NIC *Effective routes* nor known or reachable by any other VM in the VNET or peered VNETs, resulting in failed connectivity to the On-Prem branches. Step 3 of the above packet walk cannot be completed.
 
 <img width="1151" alt="image" src="https://user-images.githubusercontent.com/110976272/215525127-66412d8b-0e17-4528-9f8f-39b11e82065c.png">
 
-## 3.2.3.	Solution: Align the data-plane (*Effective routes*) to the control-plane (NVA routing table)
+## 3.2.3. Solution: Align the data-plane (*Effective routes*) to the control-plane (NVA routing table)
 To enable end-to-end connectivity, the NICs of the VMs must also know about the branch prefixes, having the information at the NVA OS level is not enough. 
 
 This is achieved by 1) creating an Azure *Route table* (or updating an existing one), 2) configuring a static entry (a UDR) in this *Route table* for the branch prefixes (the 192.168.0.0/16 supernet is enough) with the NVA as Next-Hop (10.0.10.4), and 3) associating the *Route table* with any subnet requiring connectivity to these branches. Steps 2 and 3 are represented below:
 
 <img width="1024" alt="image" src="https://user-images.githubusercontent.com/110976272/215296529-0ba577fb-0762-442b-a59e-52ad31e6377b.png">
 
-:warning: Do make sure to follow the blue box note of enabling IP forwarding on the Concentrator NVA’s NIC. When a UDR is configured with an NVA as Next-Hop, IP forwarding must be enabled on the NVA NIC receiving the traffic or packets will be dropped.
+:warning: Do make sure to follow the blue box note of enabling *IP forwarding* on the Concentrator NVA’s NIC. When a UDR is configured with an NVA as Next-Hop, IP forwarding must be enabled on the NVA NIC receiving the traffic or packets will be dropped.
+
+The Concentrator NVA doesn't need the On-Prem prefixes in its *Effective routes*.
+
+:arrow: *Effective routes* are only checked for packets **leaving** the VMs to identify the Next-Hop to forward traffic to. It is *IP forwarding* that will make an NVA process traffic reaching its NIC.
 
 All the subnets that should know about the On-Prem prefixes must be explicitly associated to this *Route table*, containing the /16 static route to the Concentrator NVA. For this scenario we have associated all the subnets of Spoke1 and Spoke2 VNETs and the Hub Test subnet to a *Route table* named "SpokeRT":
 
 <img width="678" alt="image" src="https://user-images.githubusercontent.com/110976272/215543830-32e9bb56-6cae-4e6a-928c-5765bec86a4b.png">
 
-As observed on the previous diagram, the Concentrator NVA itself doesn’t have the On-Prem prefixes in its *Effective routes*. Its subnet must therefore also be associated to a *Route table* with the 192.16.0.0/16 UDR.
-
-:arrow_right: Although the same UDR (192.16.0.0/16 => 10.0.10.4) will be configured for the NVA and for the Spokes it is common practice to create a *Route table* dedicated to the subnet of the NVA, to allow for further distinct updates usually required between the Spokes and the NVA.
-
-Here is a summary of the Concentrator NVA's *Route table* (named "ConcentratorRT"):
-
-<img width="688" alt="image" src="https://user-images.githubusercontent.com/110976272/215297079-9faf1ef6-b1d3-477c-b612-0d49563af5e1.png">
-
-The impact on the VMs *Effective routes* of associating these 2 *Route tables* to the Spoke subnets and the NVA subnet respectively is represented on the updated diagram below:
+The impact on the VMs *Effective routes* of associating these *Route tables* to the Spoke subnets is represented on the updated diagram below:
 
 <img width="1173" alt="image" src="https://user-images.githubusercontent.com/110976272/215555521-bdce8934-c420-4fab-8159-3e602aec031a.png">
 
