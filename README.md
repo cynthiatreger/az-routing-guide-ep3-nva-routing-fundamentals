@@ -63,11 +63,9 @@ Let’s use the example of the ping from the Concentrator NVA (10.0.10.4) to Spo
 Because in the CSR routing table there isn’t any match for the Spoke1VM subnet (10.1.1.0/24) or for the Spoke1 VNET range (10.1.0.0/16), packets will be caught by the default route pointing towards 10.0.10.1 (the VNET default GW). 
 2. As 10.0.10.1 belongs to the 10.0.10.0/24 subnet for which an outbound interface is known in the routing table (GigabitEthernet1), the usual recursive routing will result in the packets being forwarded out the GigabitEthernet1 interface.
 
-In traditional networking, the packet would be processed through an SFP (inserted in a physical port labelled “GE1”) and according to the L3 routing decision made by the router. 
+In traditional networking, packets would be processed through an SFP (inserted in a physical port labelled “GE1”) and according to the L3 routing decision made by the router. 
 
-:arrow_right: the routing at NVA OS level determines to which NIC traffic should be forwarded to.
-
-3. :arrow_right: **In Azure, once forwarded to the (logical) GigabitEthernet1 interface, packets reach the underlying associated physical NIC, where they are routed based on the NIC *Effective routes* and the packet destination IP, and are finally sent to the wire accordingly** (here the destination matches the 10.1.0.0/16 entry know via VNET peering).
+3. :arrow_right: **In Azure, after the routing at NVA OS level has determined to which (logical) interface to forward traffic to (here GigabitEthernet1),packets reach the underlying associated physical NIC, where they are routed based on the NIC *Effective routes* and the packet destination IP, and are finally sent to the wire accordingly** (here the destination matches the 10.1.0.0/16 entry know via VNET peering).
 
 Understanding this additional step and most importantly the need of alignment between a VM’s Effective routes and the routing table sitting on top of the VM has been a key learning for me.
 
