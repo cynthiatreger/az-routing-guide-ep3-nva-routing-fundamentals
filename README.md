@@ -111,7 +111,7 @@ All the subnets that should know about the On-Prem prefixes must be explicitly a
 
 The impact on the VMs *Effective routes* of associating these *Route tables* to the Spoke subnets is represented on the updated diagram below:
 
-<img width="1173" alt="image" src="https://user-images.githubusercontent.com/110976272/215555521-bdce8934-c420-4fab-8159-3e602aec031a.png">
+<img width="1110" alt="image" src="https://user-images.githubusercontent.com/110976272/217288920-9ba09d2a-c58e-4e14-bc8b-adb11ceb7758.png">
 
 :arrow_right: The branch prefixes are not propagated by the Concentrator NVA in its VNET and peered VNETs like a Virtual Network Gateway would do. Connectivity is achieved via UDRs pointing to the Concentrator and configured on every target subnet.
 
