@@ -103,7 +103,7 @@ This is achieved by 1) creating an Azure *Route table* (or updating an existing 
 
 The Concentrator NVA doesn't need the On-Prem prefixes in its *Effective routes*.
 
-:arrow: *Effective routes* are only checked for packets **leaving** the VMs to identify the Next-Hop to forward traffic to. It is *IP forwarding* that will make an NVA process traffic reaching its NIC.
+:arrow_right: *Effective routes* are only checked for packets **leaving** the VMs to identify the Next-Hop to forward traffic to. It is *IP forwarding* that will make an NVA process traffic reaching its NIC.
 
 All the subnets that should know about the On-Prem prefixes must be explicitly associated to this *Route table*, containing the /16 static route to the Concentrator NVA. For this scenario we have associated all the subnets of Spoke1 and Spoke2 VNETs and the Hub Test subnet to a *Route table* named "SpokeRT":
 
